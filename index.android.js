@@ -17,7 +17,7 @@ var {
   TouchableHighlight,
 } = React;
 
-
+/*
 var FBLoginManager = require('NativeModules').FBLoginManager;
 
 
@@ -106,6 +106,36 @@ var styles = StyleSheet.create({
     whiteFont: {
         color: 'white'
     }
+});*/
+
+var {NativeModules} = require('react-native');
+var FBLogin = require('./jsmodules/fblogin.js');
+var FBLoginManager = NativeModules.FBLoginManager; // if needed
+
+var GoogleLogin = require('./jsmodules/googlelogin.js');
+
+
+var sample = React.createClass({
+    render: function() {
+        return (
+		<View>
+            <FBLogin
+                onLogin={function(e){console.log(e)}}
+                onLogout={function(e){console.log(e)}}
+                onCancel={function(e){console.log(e)}}
+                onPermissionsMissing={function(e){console.log(e)}}
+            />
+            <GoogleLogin
+                onLogin={function(e){console.log(e)}}
+                onLogout={function(e){console.log(e)}}
+                onCancel={function(e){console.log(e)}}
+                onPermissionsMissing={function(e){console.log(e)}}
+            />
+		</View>
+        );
+    },
+  
+    
 });
 
 AppRegistry.registerComponent('sample', () => sample);

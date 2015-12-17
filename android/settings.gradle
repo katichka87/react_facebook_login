@@ -1,3 +1,3 @@
 rootProject.name = 'sample'
 
-include ':app', ':react-native-facebook-login'
+include ':app'

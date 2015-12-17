@@ -1,4 +1,4 @@
-package com.sample;
+package com.sample.socialnetwork.facebook;
 
 import android.content.Context;
 import android.content.Intent;

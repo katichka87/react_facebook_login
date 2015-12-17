@@ -1,6 +1,4 @@
-package com.sample;
-
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
+package com.sample.socialnetwork.facebook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,17 +19,14 @@ import com.facebook.login.LoginResult;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableType;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -187,12 +182,10 @@ public class FacebookLoginManager extends ReactContextBaseJavaModule {
         mTokenCallback = callback;
 
         List<String> _permissions = getPermissions(permissions);
-        if(_permissions != null && _permissions.size() > 0 && _permissions.contains("email")){
+        if (_permissions != null && _permissions.size() > 0 && _permissions.contains("email")) {
             Log.i("FBLoginPermissions", "Using: " + _permissions.toString());
-
-            LoginManager.getInstance().logInWithReadPermissions(
-                    (Activity) mActivityContext, _permissions);
-        }else{
+            LoginManager.getInstance().logInWithReadPermissions((Activity) mActivityContext, _permissions);
+        } else {
             handleInsufficientPermissions("Insufficient permissions", "onPermissionsMissing", CALLBACK_TYPE_ERROR);
         }
 

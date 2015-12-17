@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "sampleapp-b30a9",
+    "project_number": "157351027504",
+    "name": "SampleApp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157351027504:android:ee405a18654404cd",
+        "client_id": "android:com.sample",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157351027504-tgv70pdbhebjn9lfifs8v4fb9rng31jo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sample",
+            "certificate_hash": "14A6970E0AB1E9D56A979845D8F9D8F1A623402D"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

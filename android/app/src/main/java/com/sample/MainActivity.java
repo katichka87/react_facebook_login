@@ -16,6 +16,10 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
+import com.sample.socialnetwork.facebook.FacebookLoginPackage;
+import com.sample.socialnetwork.google.GoogleSigninModule;
+import com.sample.socialnetwork.google.GoogleSigninPackage;
+//import com.sample.socialnetwork.google.GoogleSigninPackage;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,13 +28,16 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
+
     private FacebookLoginPackage mFacebookLoginPackage;
+    private GoogleSigninPackage mGoogleSigninPackage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mFacebookLoginPackage = new FacebookLoginPackage(this);
+        mGoogleSigninPackage = new GoogleSigninPackage(this);
 
         mReactRootView = new ReactRootView(this);
         mReactInstanceManager = ReactInstanceManager.builder()
@@ -41,6 +48,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .addPackage(mFacebookLoginPackage)
+                .addPackage(mGoogleSigninPackage)
                 .build();
 
         mReactRootView.startReactApplication(mReactInstanceManager, "sample", null);
@@ -50,8 +58,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.sample",
-                    PackageManager.GET_SIGNATURES);
+                    "com.sample", PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
@@ -69,6 +76,9 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mFacebookLoginPackage.handleActivityResult(requestCode, resultCode, data);
+        if (requestCode == GoogleSigninModule.RC_SIGN_IN) {
+            GoogleSigninModule.onActivityResult(requestCode, data);
+        }
     }
 
     @Override
