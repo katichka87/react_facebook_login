@@ -9,10 +9,6 @@ var {
 
 var FBLoginManager = NativeModules.FBLoginManager;
 
-var itypeof = function (val) {
-    return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g, '').toLowerCase();
-};
-
 var FBLogin = React.createClass({
     getInitialState() {
         var statics = {
@@ -29,7 +25,7 @@ var FBLogin = React.createClass({
     componentWillMount: function() {
         var self = this;
         FBLoginManager.getCurrentToken(function(token) {
-            if (itypeof(token) === 'string' && token.length > 0) {
+            if (token) {
                 self.setState({isLoggedIn:true, buttonText: self.state.statics.logoutText});
             } else {
                 self.setState({isLoggedIn:false, buttonText: self.state.statics.loginText});
@@ -51,7 +47,7 @@ var FBLogin = React.createClass({
 
         if (result.eventName === 'onLogin' || result.eventName === 'onLoginFound') {
             this.setState({isLoggedIn:true, buttonText: this.state.statics.logoutText});
-        } else if(result.eventName === 'onLogout') {
+        } else if (result.eventName === 'onLogout') {
             this.setState({isLoggedIn:false, buttonText: this.state.statics.loginText});
         }
 
@@ -67,14 +63,12 @@ var FBLogin = React.createClass({
 
     _onFacebookPress() {
         var permissions = ['email', 'public_profile'];
-        if( itypeof(this.props.permissions) === 'array') {
-              permissions = this.props.permissions;
-        }
+        permissions = this.props.permissions;
         
         if (this.state.isLoggedIn) {
-          FBLoginManager.logout((err,data) => this._handleEvent(err,data));
+            FBLoginManager.logout((err,data) => this._handleEvent(err,data));
         } else {
-          FBLoginManager.loginWithPermissions(permissions, (err,data) => this._handleEvent(err,data));
+            FBLoginManager.loginWithPermissions(permissions, (err,data) => this._handleEvent(err,data));
         }
     },
 
