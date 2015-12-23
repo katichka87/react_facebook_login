@@ -1228,96 +1228,126 @@ AppRegistry=
 
 
 
-React.AppRegistry;var Image=React.Image;var ListView=React.ListView;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var DrawerLayoutAndroid=React.DrawerLayoutAndroid;var ProgressBarAndroid=React.ProgressBarAndroid;var TouchableHighlight=React.TouchableHighlight;
+React.AppRegistry;var Image=React.Image;var ListView=React.ListView;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var DrawerLayoutAndroid=React.DrawerLayoutAndroid;var ProgressBarAndroid=React.ProgressBarAndroid;var TouchableHighlight=React.TouchableHighlight;var _require=
 
 
-var FBLoginManager=require('NativeModules').FBLoginManager;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require('react-native/Libraries/react-native/react-native.js');var NativeModules=_require.NativeModules;
+var FBLogin=require('sample/jsmodules/fblogin.js');
+var FBLoginManager=NativeModules.FBLoginManager;
+
+var GoogleLogin=require('sample/jsmodules/googlelogin.js');
 
 
 var sample=React.createClass({displayName:'sample',
-getInitialState:function(){
-var statics={
-loginText:'Login with Facebook',
-logoutText:'Logout from Facebook'};
-
-return {
-statics:statics,
-isLoggedIn:false,
-buttonText:statics.loginText}},
-
-
-
-componentWillMount:function(){
-var self=this;
-FBLoginManager.getCurrentToken(function(token){
-if(typeof token==='string'&&token.length>0){
-self.setState({isLoggedIn:true,buttonText:self.state.statics.logoutText})}else 
-{
-self.setState({isLoggedIn:false,buttonText:self.state.statics.loginText})}})},
-
-
-
-
-_handleEvent:function(e,data){
-var result=e||data;
-if(result.type==='success'&&result.profile){
-try{
-result.profile=JSON.parse(result.profile)}
-catch(err) {
-console.warn('Could not parse facebook profile: ',result.profile);
-console.error(err)}}
-
-
-
-if(result.eventName==='onLogin'||result.eventName==='onLoginFound'){
-this.setState({isLoggedIn:true,buttonText:this.state.statics.logoutText})}else 
-if(result.eventName==='onLogout'){
-this.setState({isLoggedIn:false,buttonText:this.state.statics.loginText})}
-
-
-if(result.eventName&&this.props.hasOwnProperty(result.eventName)){
-var event=result.eventName;
-delete result.eventName;
-console.log('Triggering \'%s\' event',event);
-this.props[event](result)}else 
-{
-console.log('\'%s\' Event is not defined or recognized',result.eventName)}},
-
-
-
-_onFacebookPress:function(){var _this=this;
-var permissions=['email','public_profile'];
-if(typeof this.props.permissions==='array'){
-permissions=this.props.permissions}
-
-
-if(this.state.isLoggedIn){
-FBLoginManager.logout(function(err,data){return _this._handleEvent(err,data)})}else 
-{
-FBLoginManager.loginWithPermissions(permissions,function(err,data){return _this._handleEvent(err,data)})}},
-
-
-
 render:function(){
 return (
-React.createElement(TouchableHighlight,{onPress:this._onFacebookPress},
-React.createElement(View,{style:styles.login},
-React.createElement(Text,{style:styles.whiteFont},' ',this.state.buttonText,' '))))}});
+React.createElement(View,null,
+React.createElement(FBLogin,{
+onLogin:function(e){console.log(e)},
+onLogout:function(e){console.log(e)},
+onCancel:function(e){console.log(e)},
+onPermissionsMissing:function(e){console.log(e)}}),
+
+React.createElement(GoogleLogin,{
+onLogin:function(e){console.log(e)},
+onLogout:function(e){console.log(e)},
+onCancel:function(e){console.log(e)},
+onPermissionsMissing:function(e){console.log(e)}})))}});
 
 
 
 
 
-
-var styles=StyleSheet.create({
-login:{
-flex:1,
-backgroundColor:'#3B5998',
-padding:10,
-alignItems:'center'},
-
-whiteFont:{
-color:'white'}});
 
 
 
@@ -56699,6 +56729,196 @@ Object.keys(componentOrElement))}
 
 
 module.exports=findDOMNode;
+});
+__d('sample/jsmodules/fblogin.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+NativeModules=
+
+
+
+
+React.NativeModules;var StyleSheet=React.StyleSheet;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var Text=React.Text;
+
+var FBLoginManager=NativeModules.FBLoginManager;
+
+var itypeof=function(val){
+return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g,'').toLowerCase()};
+
+
+
+var FBLogin=React.createClass({displayName:'FBLogin',
+getInitialState:function(){
+var statics={
+loginText:'Login with Facebook',
+logoutText:'Logout from Facebook'};
+
+return {
+statics:statics,
+isLoggedIn:false,
+buttonText:statics.loginText}},
+
+
+componentWillMount:function(){
+var self=this;
+FBLoginManager.getCurrentToken(function(token){
+if(itypeof(token)==='string'&&token.length>0){
+self.setState({isLoggedIn:true,buttonText:self.state.statics.logoutText})}else 
+{
+self.setState({isLoggedIn:false,buttonText:self.state.statics.loginText})}})},
+
+
+
+_handleEvent:function(e,data){
+
+var result=e||data;
+if(result.type==='success'&&result.profile){
+try{
+result.profile=JSON.parse(result.profile)}
+catch(err) {
+console.warn('Could not parse facebook profile: ',result.profile);
+console.error(err)}}
+
+
+
+if(result.eventName==='onLogin'||result.eventName==='onLoginFound'){
+this.setState({isLoggedIn:true,buttonText:this.state.statics.logoutText})}else 
+if(result.eventName==='onLogout'){
+this.setState({isLoggedIn:false,buttonText:this.state.statics.loginText})}
+
+
+if(result.eventName&&this.props.hasOwnProperty(result.eventName)){
+var event=result.eventName;
+delete result.eventName;
+console.log('Triggering \'%s\' event',event);
+this.props[event](result)}else 
+{
+console.log('\'%s\' Event is not defined or recognized',result.eventName)}},
+
+
+
+_onFacebookPress:function(){var _this=this;
+var permissions=['email','public_profile'];
+if(itypeof(this.props.permissions)==='array'){
+permissions=this.props.permissions}
+
+
+if(this.state.isLoggedIn){
+FBLoginManager.logout(function(err,data){return _this._handleEvent(err,data)})}else 
+{
+FBLoginManager.loginWithPermissions(permissions,function(err,data){return _this._handleEvent(err,data)})}},
+
+
+
+render:function(){
+return (
+React.createElement(TouchableHighlight,{onPress:this._onFacebookPress},
+React.createElement(View,{style:styles.login},
+React.createElement(Text,{style:styles.whiteFont},' ',this.state.buttonText,' '))))}});
+
+
+
+
+
+
+var styles=StyleSheet.create({
+login:{
+flex:1,
+backgroundColor:'#3B5998',
+padding:10,
+alignItems:'center'},
+
+whiteFont:{
+color:'white'}});
+
+
+
+module.exports=FBLogin;
+});
+__d('sample/jsmodules/googlelogin.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+
+GoogleSignin=
+
+
+
+
+
+
+React.NativeModules.GoogleSignin;var StyleSheet=React.StyleSheet;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var Text=React.Text;var DeviceEventEmitter=React.DeviceEventEmitter;
+
+
+var GoogleLogin=React.createClass({displayName:'GoogleLogin',
+
+getInitialState:function(){
+var statics={
+loginText:'Login with Google',
+logoutText:'Logout from Google'};
+
+return {
+statics:statics,
+isLoggedIn:false,
+buttonText:statics.loginText}},
+
+
+
+componentDidMount:function(){var _this=this;
+GoogleSignin.init();
+
+DeviceEventEmitter.addListener('googleSignInError',function(error){
+console.log('ERROR signin in',error);
+_this.setState({isLoggedIn:false,buttonText:_this.state.statics.loginText})});
+
+
+
+DeviceEventEmitter.addListener('googleSignIn',function(user){
+console.log(user);
+
+_this.setState({isLoggedIn:true,buttonText:_this.state.statics.logoutText})});
+
+
+
+DeviceEventEmitter.addListener('googleSignOut',function(user){
+console.log(user);
+_this.setState({isLoggedIn:false,buttonText:_this.state.statics.loginText})})},
+
+
+
+_onGooglePress:function(){
+
+if(this.state.isLoggedIn){
+GoogleSignin.signOut()}else 
+{
+GoogleSignin.signIn()}},
+
+
+
+render:function(){
+return (
+React.createElement(TouchableHighlight,{onPress:this._onGooglePress},
+React.createElement(View,{style:styles.login},
+React.createElement(Text,{style:styles.whiteFont},' ',this.state.buttonText,' '))))}});
+
+
+
+
+
+
+
+
+var styles=StyleSheet.create({
+login:{
+flex:1,
+backgroundColor:'#D64A38',
+padding:10,
+alignItems:'center'},
+
+whiteFont:{
+color:'white'}});
+
+
+
+module.exports=GoogleLogin;
 });
 ;require("InitializeJavaScriptAppEngine");
 ;require("sample/index.android.js");

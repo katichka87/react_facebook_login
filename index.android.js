@@ -113,6 +113,7 @@ var FBLogin = require('./jsmodules/fblogin.js');
 var FBLoginManager = NativeModules.FBLoginManager; // if needed
 
 var GoogleLogin = require('./jsmodules/googlelogin.js');
+var TwitterLogin = require('./jsmodules/twitterlogin.js');
 
 
 var sample = React.createClass({
@@ -126,6 +127,12 @@ var sample = React.createClass({
                 onPermissionsMissing={function(e){console.log(e)}}
             />
             <GoogleLogin
+                onLogin={function(e){console.log(e)}}
+                onLogout={function(e){console.log(e)}}
+                onCancel={function(e){console.log(e)}}
+                onPermissionsMissing={function(e){console.log(e)}}
+            />
+            <TwitterLogin
                 onLogin={function(e){console.log(e)}}
                 onLogout={function(e){console.log(e)}}
                 onCancel={function(e){console.log(e)}}
