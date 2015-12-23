@@ -1,14 +1,14 @@
 var React = require('react-native');
 
 var {
-  NativeModules: {
-    GoogleSignin
-  },
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Text,
-  DeviceEventEmitter
+    NativeModules: {
+      GoogleSignin
+    },
+    StyleSheet,
+    View,
+    TouchableHighlight,
+    Text,
+    DeviceEventEmitter
 } = React;
 
 
